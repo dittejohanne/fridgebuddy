@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="da">
+<!-- //======== FÆLLSESKODNING ========== //   -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0">
+  <title>Fridge Buddy</title>
+  <meta name="description" content="Fridge Buddy is a Web App which will help you manage your groceries as well as your shopping list">
+  <meta name="author" content="Johanne, Sander og Oskar">
+  <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://use.typekit.net/tko2nny.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body onhashchange="pageChange()">
+  <div class="topbar hide">
+    <div class="topbar-flex">
+      <a href="#" onclick="history.go(-1)"><img src="images/pil.svg"></a>
+      <img src="images/logo.svg" id="logo" alt="Fridge Buddy Logo">
+      <a href="#profile"> <img src="images\profile-icon.svg" class="man"> </a>
+    </div>
+  </div>
+  <!-- login page -->
+  <section id="login" class="page">
+    <header class="topbar">
+      <img src="images/logo.svg" id="logo" alt="Fridge Buddy Logo">
+    </header>
+    <!-- firebase auth container  -->
+    <section id="firebaseui-auth-container"></section>
+  </section>
+
+  <!-- navigation til vores SPA -->
+  <nav id="tabbar" class="tabbar hide">
+    <a href="#recipe"> <img src="images\hat-icon.svg"> </a>
+    <a href="#fridge"> <img src="images\fridge-icon.svg"> </a>
+    <a href="#shoplist"> <img src="images\shoplist-icon.svg"> </a>
+
+  </nav>
+
+  <section id="fridge" class="page">
+
+    <h2 class="page_overskrift">
+      Dit køleskab
+    </h2>
+
+    <div id="flex-cirkler">
+      <article>
+      <div class="cirkler frisk"></div>
+      <p>3+ dage</p>
+    </article>
+    <article>
+      <div class="cirkler udløber"></div>
+      <p>1-2 dage</p>
+    </article>
+  <article>
+      <div class="cirkler udløbet"></div>
+      <p>Udløbet</p>
+    </article>
+    </div>
+
+<section id="indhold-skraldespand">
+<h3>
+  Indhold
+</h3>
+</section>
+<article id="madvarer-container">
+    <!-- Køleskabs Indhold-->
+    </article>
+
+    </article>
+<!--- Tilføje knap til madvarer-->
+    <div id="add-button" onclick="addButton()">
+      <p>+</p>
+    </div>
+    <article class="add-button-menu" style="display:none;">
+      <article>
+        <h2 class="page_overskrift">TILFØJ NYE MADVARE TIL DIT KØLESKAB</h2>
+        <input class="recipesearch" type="search" placeholder="Søg efter madvare" onkeyup="search(this.value)">
+      </article>
+      <h3>FORSLAG</h3>
+      <article id="add-menu-forslag">
+
+      </article>
+    </article>
+  </section>
+
+<!--Indkøbsliste Side-->
+  <section id="shoplist" class="page">
+    <h2 class="page_overskrift">
+
+      Indkøbsliste
+    </h2>
+
+    <section id="width-shoplist">
+    <div class="skraldespand">
+          <img src="images/skraldespandlys.svg" alt="slet-knap">
+  </div>
+
+  <section id="shoplist_baggrund">
+    <article class="container">
+    <label >Mælk
+        <input type="checkbox" name="madvarer" checked="checked" value="bar1">
+        <span class="checkmark"></span>
+      </label>
+    </article>
+</section>
+
+<!--   <div id="add-button" onclick="addButton()">
+    <p>+</p>
+  </div> -->
+
+  <section id="flex_shop">
+  <div class="shop_knap">
+  <input type="button" id="input_markerAlle" value="Marker alle" onclick='selectAll();'>
+  </div>
+
+  <div class="shop_knap">
+    <p>Overfør til køleskab</p>
+  </div>
+</div>
+</section>
+</section>
+
+</section>
+
+
+<!-- Opskrift side -->
+  <section id="recipe" class="page">
+    <h2 class="page_overskrift">Find din opskrift her</h2>
+    <input class="recipesearch" type="search" placeholder="Søg efter madvare" onkeyup="search(this.value)">
+
+    <section id="recipe-container" class="recipe-flex"></section>
+
+  </section>
+
+  <!-- profile page -->
+  <section id="profile" class="page">
+    <div class="topbar">
+      <div class="topbar-flex">
+      <a href="#" onclick="history.go(-1)" class="left"><img src="images/pil.svg"></a>
+      <img src="images/logo.svg" id="logo" alt="Fridge Buddy Logo">
+      <a class="right" href="#login" onclick="logout()">Logout</a>
+    </div>
+    </div>
+    <form>
+      <img id="profil-ikon" src="images/profile-icon.svg" alt="profile">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Type your name" required>
+      <label for="mail">Mail</label>
+      <input type="email" id="mail" placeholder="Type your mail" disabled>
+      <button type="button" name="button" onclick="updateUser()">Save</button>
+    </form>
+  </section>
+
+
+
+  <!-- loader  -->
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-firestore.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <!-- firebase config js file -->
+  <script src="js/firebase_config.js"></script>
+  <!-- SCRIPT til mainJS -->
+  <script src="js\main.js" type="module"></script>
+  <!-- SCRIPT TIL LOGIN-->
+  <script src="js/login.js" type="module"></script>
+
+  <script src="js\opskrift.js"></script>
+</body>
+
+</html>
